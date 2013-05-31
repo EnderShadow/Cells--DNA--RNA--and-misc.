@@ -1,26 +1,27 @@
 package cell;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import cell.geneticcode.Chromosome;
 import cell.geneticcode.DNA;
 
 public class Cell
 {
+	private String SAVE_LOCATION = Run.getSaveLocation(0) + "/";
 	private int ID;
 	private int numChromosomes;
 	private int halfNumChromosomes;
 	private Chromosome[] parent1;
 	private Chromosome[] parent2;
 	
-	public Cell(int halfNumChromosomes)
+	public Cell(int halfNumChromosomes, int id)
 	{
-		ID = Run.getID(this);
+		Run.cellID[id] = this;
+		ID = id;
 		this.halfNumChromosomes = halfNumChromosomes;
 		numChromosomes = halfNumChromosomes * 2;
 		parent1 = new Chromosome[halfNumChromosomes];
@@ -34,6 +35,11 @@ public class Cell
 		{
 			printData();
 		}
+	}
+	
+	public Cell(int halfNumChromosomes)
+	{
+		this(halfNumChromosomes, Run.getFreeCellID());
 	}
 	
 	public Chromosome getChromosome1(int index)
@@ -115,25 +121,15 @@ public class Cell
 	{
 		try
 		{
-			File file = new File("existingCells/" + ID + ".txt");
+			File file = new File(SAVE_LOCATION + ID + ".txt");
 			String[] allDNA = new String[numChromosomes];
-			RandomAccessFile raf = new RandomAccessFile(file, "rw");
+			BufferedReader br = new BufferedReader(new FileReader(file));
 			for(int i = 0; i < numChromosomes; i++)
 			{
 				System.out.println("getting data from line " + (i + 1) + " of file " + (ID + 1));
-				raf.seek(raf.length() - (6000000 * (i + 1)) - (2 * (i + 1)));
-				allDNA[i] = raf.readLine();
+				allDNA[i] = br.readLine();
 			}
-			raf.close();
-			
-			String[] allDNA2 = new String[allDNA.length];
-			
-			for(int i = 0; i < allDNA.length; i++)
-			{
-				allDNA2[allDNA.length - 1 - i] = allDNA[i];
-			}
-			
-			allDNA = allDNA2;
+			br.close();
 			
 			for(int i = 0; i < halfNumChromosomes; i++)
 			{
@@ -146,11 +142,7 @@ public class Cell
 			}
 			return true;
 		}
-		catch(FileNotFoundException e)
-		{
-			System.err.println(e.getMessage());
-		}
-		catch(IOException e)
+		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
 		}
@@ -162,7 +154,7 @@ public class Cell
 		String newLine = System.getProperty("line.separator");
 		try
 		{
-		    FileWriter fstream = new FileWriter("existingCells/" + ID + ".txt", false); //true tells to append data.
+		    FileWriter fstream = new FileWriter(SAVE_LOCATION + ID + ".txt", false); //true tells to append data.
 		    BufferedWriter out = new BufferedWriter(fstream);
 		    for(int i = 0; i < halfNumChromosomes; i++)
 		    {
