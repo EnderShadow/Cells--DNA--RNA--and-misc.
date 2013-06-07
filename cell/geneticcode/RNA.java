@@ -1,7 +1,7 @@
 package cell.geneticcode;
 
 
-public class RNA
+public class RNA extends GeneticCode
 {
 	private char[] activeSide;
 	
@@ -9,6 +9,7 @@ public class RNA
 	
 	public RNA(int length, boolean autoGenerate)
 	{
+		length = (length / 3) * 3;
 		RNAlength = length;
 		if(autoGenerate)
 		{

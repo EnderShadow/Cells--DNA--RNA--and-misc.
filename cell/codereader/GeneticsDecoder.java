@@ -1,11 +1,10 @@
 package cell.codereader;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import cell.geneticcode.DNA;
 import cell.geneticcode.RNA;
@@ -54,22 +53,15 @@ public class GeneticsDecoder
 		String mRNA = "";
 		char[] mrna;
 		String DNA = "";
-		//read file
-		//36400 lines
 		
-		File file = new File(FILE);
 		try
 		{
-			RandomAccessFile raf = new RandomAccessFile(file, "rw");
-			raf.seek(raf.length() - 600000);
-			DNA = raf.readLine();
-			raf.close();
+			File file = new File(FILE);
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			DNA = br.readLine();
+			br.close();
 		}
-		catch(FileNotFoundException e)
-		{
-			System.err.println(e.getMessage());
-		}
-		catch(IOException e)
+		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
 		}

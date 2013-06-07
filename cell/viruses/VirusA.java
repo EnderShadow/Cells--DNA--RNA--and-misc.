@@ -1,4 +1,4 @@
-package cell;
+package cell.viruses;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,16 +6,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+import cell.Run;
 import cell.geneticcode.RNA;
 import cell.util.IRNA;
+import cell.util.IVirus;
 
-public class Virus implements IRNA
+public class VirusA implements IRNA, IVirus
 {
 	private String SAVE_LOCATION = Run.getSaveLocation(2) + "/";
 	private int ID;
 	private RNA rna;
 	
-	public Virus(int id)
+	public VirusA(int id)
 	{
 		Run.virusID[id] = this;
 		ID = id;
@@ -26,7 +28,7 @@ public class Virus implements IRNA
 		}
 	}
 	
-	public Virus()
+	public VirusA()
 	{
 		this(Run.getFreeVirusID());
 	}
@@ -38,9 +40,10 @@ public class Virus implements IRNA
 	}
 	
 	@Override
-	public void setDNA(RNA newRNA)
+	public void setRNA(RNA newRNA)
 	{
 		rna = newRNA;
+		printData();
 	}
 	
 	private boolean getSaveData()
@@ -56,7 +59,7 @@ public class Virus implements IRNA
 		}
 		catch(Exception e)
 		{
-			System.err.println(e.getMessage());
+			//System.err.println(e.getMessage());
 		}
 		return false;
 	}
@@ -75,5 +78,11 @@ public class Virus implements IRNA
 		{
 		    System.err.println("Error: " + e.getMessage());
 		}
+	}
+	
+	@Override
+	public char[] getVirusData()
+	{
+		return rna.getRNA();
 	}
 }

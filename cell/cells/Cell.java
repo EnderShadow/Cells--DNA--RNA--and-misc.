@@ -1,15 +1,22 @@
-package cell;
+package cell.cells;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Random;
 
+import cell.Run;
 import cell.geneticcode.Chromosome;
 import cell.geneticcode.DNA;
+import cell.geneticcode.GeneticCode;
+import cell.util.IDNA;
+import cell.util.IInfectable;
+import cell.util.IRNA;
+import cell.util.IVirus;
 
-public class Cell
+public class Cell implements IInfectable
 {
 	private String SAVE_LOCATION = Run.getSaveLocation(0) + "/";
 	private int ID;
@@ -17,6 +24,7 @@ public class Cell
 	private int halfNumChromosomes;
 	private Chromosome[] parent1;
 	private Chromosome[] parent2;
+	private DNA viralDNA = new DNA(0);
 	
 	public Cell(int halfNumChromosomes, int id)
 	{
@@ -76,21 +84,25 @@ public class Cell
 	public void setChromosome1(Chromosome c, int index)
 	{
 		parent1[index] = c;
+		printData();
 	}
 	
 	public void setChromosome2(Chromosome c, int index)
 	{
 		parent2[index] = c;
+		printData();
 	}
 	
 	public void setChromosomes1(Chromosome[] c)
 	{
 		parent1 = c;
+		printData();
 	}
 	
 	public void setChromosomes2(Chromosome[] c)
 	{
 		parent2 = c;
+		printData();
 	}
 	
 	public void setAllChromosomes(Chromosome[][] c)
@@ -100,6 +112,7 @@ public class Cell
 			parent1[i] = c[i][0];
 			parent2[i] = c[i][1];
 		}
+		printData();
 	}
 	
 	public void setAllChromosomes(Cell cell)
@@ -129,6 +142,7 @@ public class Cell
 				System.out.println("getting data from line " + (i + 1) + " of file " + (ID + 1));
 				allDNA[i] = br.readLine();
 			}
+			viralDNA.setActiveSide(br.readLine().toCharArray());
 			br.close();
 			
 			for(int i = 0; i < halfNumChromosomes; i++)
@@ -144,7 +158,7 @@ public class Cell
 		}
 		catch(Exception e)
 		{
-			System.err.println(e.getMessage());
+			//System.err.println(e.getMessage());
 		}
 		return false;
 	}
@@ -164,11 +178,59 @@ public class Cell
 		    {
 		    	out.write(String.valueOf(parent2[i].getDNA().getActiveSide()) + newLine);
 		    }
+		    out.write(String.valueOf(viralDNA.getActiveSide()) + newLine);
 		    out.close();
 		}
 		catch (Exception e)
 		{
 		    System.err.println("Error: " + e.getMessage());
 		}
+	}
+	
+	@Override
+	public double getImmuneLevel()
+	{
+		return 50.0D;
+	}
+	
+	@Override
+	public void infect(IVirus virus)
+	{
+		Random rand = new Random();
+		if(rand.nextDouble() > getImmuneLevel() / 100)
+		{
+			if(virus instanceof IRNA)
+			{
+				
+			}
+			else if(virus instanceof IDNA)
+			{
+				char[] infection = virus.getVirusData();
+				DNA oldViralDNA = viralDNA;
+				viralDNA = new DNA(oldViralDNA.getLength() + infection.length);
+				for(int i = 0; i < oldViralDNA.getLength(); i++)
+				{
+					viralDNA.setActiveSide(i, oldViralDNA.getActiveSide(i));
+				}
+				for(int i = oldViralDNA.getLength(); i < viralDNA.getLength(); i++)
+				{
+					viralDNA.setActiveSide(i, infection[i - oldViralDNA.getLength()]);
+				}
+			}
+			printData();
+		}
+	}
+	
+	@Override
+	public DNA getViralDNA()
+	{
+		return viralDNA;
+	}
+	
+	@Override
+	public void setViralDNA(GeneticCode newDNA)
+	{
+		viralDNA = (DNA)newDNA;
+		printData();
 	}
 }

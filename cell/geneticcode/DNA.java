@@ -1,7 +1,7 @@
 package cell.geneticcode;
 
 
-public class DNA
+public class DNA extends GeneticCode
 {
 	private char[] activeSide;
 	private char[] inactiveSide;
@@ -10,6 +10,7 @@ public class DNA
 	
 	public DNA(int length, boolean autoGenerate)
 	{
+		length = (length / 3) * 3;
 		DNAlength = length;
 		if(autoGenerate)
 		{
@@ -60,6 +61,7 @@ public class DNA
 	{
 		activeSide = genes;
 		inactiveSide = getOpposite(genes);
+		DNAlength = genes.length;
 	}
 	
 	public void setActiveSide(int index, char value)
@@ -72,6 +74,7 @@ public class DNA
 	{
 		inactiveSide = genes;
 		activeSide = getOpposite(genes);
+		DNAlength = genes.length;
 	}
 	
 	public void setInactiveSide(int index, char value)
@@ -97,12 +100,14 @@ public class DNA
 			activeSide[i] = genes[i][0];
 			inactiveSide[i] = genes[i][1];
 		}
+		DNAlength = genes.length;
 	}
 	
 	public void setGenes(DNA genes)
 	{
 		activeSide = genes.getActiveSide();
 		inactiveSide = genes.getInactiveSide();
+		DNAlength = genes.getLength();
 	}
 	
 	public static char getOpposite(char c)

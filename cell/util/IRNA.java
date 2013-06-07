@@ -6,5 +6,5 @@ public interface IRNA
 {
 	public RNA getRNA();
 	
-	public void setDNA(RNA newRNA);
+	public void setRNA(RNA newRNA);
 }

@@ -1,16 +1,24 @@
 package cell;
 
 import java.io.*;
+import java.util.Scanner;
 
+import cell.cells.Bacteria;
+import cell.cells.Cell;
+import cell.cells.RNABacteria;
 import cell.codereader.GeneticsDecoder;
 import cell.geneticcode.DNA;
 import cell.geneticcode.RNA;
+import cell.util.IBacteria;
+import cell.util.IVirus;
+import cell.viruses.VirusA;
+import cell.viruses.VirusB;
 
 public class Run
 {
 	public static Cell[] cellID = new Cell[512];
-	public static Bacteria[] bacteriaID = new Bacteria[2046];
-	public static Virus[] virusID = new Virus[8192];
+	public static IBacteria[] bacteriaID = new IBacteria[2048];
+	public static IVirus[] virusID = new IVirus[8192];
 	
 	public static void main(String[] args)
 	{
@@ -20,6 +28,46 @@ public class Run
 		makeDir(getSaveLocation(0));
 		makeDir(getSaveLocation(1));
 		makeDir(getSaveLocation(2));
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("how many cells?");
+		int numCells = scan.nextInt();
+		System.out.println("how many chromosomes total per cell?");
+		int halfChrome = scan.nextInt() / 2;
+		for(int i = 0; i < numCells; i++)
+		{
+			Cell c = new Cell(halfChrome);
+		}
+		System.out.println("how many DNA bacteria?");
+		int j = scan.nextInt();
+		for(int i = 0; i < j; i++)
+		{
+			Bacteria b = new Bacteria();
+		}
+		System.out.println("how many RNA bacteria?");
+		j = scan.nextInt();
+		for(int i = 0; i < j; i++)
+		{
+			RNABacteria b = new RNABacteria();
+		}
+		System.out.println("how many DNA viruses?");
+		j = scan.nextInt();
+		for(int i = 0; i < j; i++)
+		{
+			VirusB v = new VirusB();
+		}
+		System.out.println("how many RNA viruses?");
+		j = scan.nextInt();
+		for(int i = 0; i < j; i++)
+		{
+			VirusA v = new VirusA();
+		}
+		scan.close();
+		
+		//Cell cell = new Cell(4);
+		//char[] data = "HELLO! THIS IS A TeSt".toCharArray();
+		//VirusB virus = new VirusB(data);
+		//cell.infect(virus);
 		//DNA dna = new DNA(10000, true);
 		//GeneticsDecoder.printProteins("proteins", GeneticsDecoder.getProteins(GeneticsDecoder.getCodons(GeneticsDecoder.getmRNA(dna))));
 		/*Cell cell0 = new Cell(1);
@@ -27,7 +75,7 @@ public class Run
 		printProteins("protein2", cell0.getChromosome1(1).getDNA());
 		printProteins("protein3", cell0.getChromosome2(0).getDNA());
 		printProteins("protein4", cell0.getChromosome2(1).getDNA());*/
-		for(int i = 0; i < 10; i++)
+		/*for(int i = 0; i < 10; i++)
 		{
 			Cell cell = new Cell(4);
 			for(int j = 0; j < 2; j++)
@@ -38,7 +86,7 @@ public class Run
 					Virus v = new Virus();
 				}
 			}
-		}
+		}*/
 	}
 	
 	public static void makeDir(String location)

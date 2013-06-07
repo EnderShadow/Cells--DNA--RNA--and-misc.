@@ -8,7 +8,7 @@ public class Chromosome implements IDNA
 	
 	public Chromosome()
 	{
-		dna = new DNA(6000000, true);
+		dna = new DNA(65217390, true);
 	}
 	
 	@Override
