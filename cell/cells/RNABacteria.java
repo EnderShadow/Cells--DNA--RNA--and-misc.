@@ -25,7 +25,7 @@ public class RNABacteria implements IRNA, IInfectable, IBacteria
 	
 	public RNABacteria(int id)
 	{
-		Run.bacteriaID[id][0] = this;
+		Run.bacteriaID[id] = this;
 		ID = id;
 		rna = new RNA(300000, true);
 		if(!getSaveData())
@@ -138,24 +138,9 @@ public class RNABacteria implements IRNA, IInfectable, IBacteria
 		printData();
 	}
 	
-	public boolean replicate()
+	public void replicate()
 	{
-		for(int i = 0; i < Run.bacteriaID[ID].length; i++)
-		{
-			if(Run.bacteriaID[ID][i] == null)
-			{
-				try
-				{
-					Run.bacteriaID[ID][i] = (Bacteria)this.clone();
-				}
-				catch(CloneNotSupportedException e)
-				{
-					e.printStackTrace();
-					return false;
-				}
-				return true;
-			}
-		}
-		return false;
+		RNABacteria b = new RNABacteria();
+		b.setRNA(this.getRNA());
 	}
 }

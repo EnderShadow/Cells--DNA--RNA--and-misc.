@@ -28,7 +28,7 @@ public class Cell implements IInfectable
 	
 	public Cell(int halfNumChromosomes, int id)
 	{
-		Run.cellID[id][0] = this;
+		Run.cellID[id] = this;
 		ID = id;
 		this.halfNumChromosomes = halfNumChromosomes;
 		numChromosomes = halfNumChromosomes * 2;
@@ -234,24 +234,9 @@ public class Cell implements IInfectable
 		printData();
 	}
 	
-	public boolean replicate()
+	public void replicate()
 	{
-		for(int i = 0; i < Run.cellID[ID].length; i++)
-		{
-			if(Run.cellID[ID][i] == null)
-			{
-				try
-				{
-					Run.cellID[ID][i] = (Cell)this.clone();
-				}
-				catch(CloneNotSupportedException e)
-				{
-					e.printStackTrace();
-					return false;
-				}
-				return true;
-			}
-		}
-		return false;
+		Cell c = new Cell(this.halfNumChromosomes);
+		c.setAllChromosomes(this);
 	}
 }
