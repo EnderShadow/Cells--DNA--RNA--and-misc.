@@ -16,8 +16,8 @@ import cell.viruses.VirusB;
 
 public class Run
 {
-	public static Cell[] cellID = new Cell[512];
-	public static IBacteria[] bacteriaID = new IBacteria[2048];
+	public static Cell[][] cellID = new Cell[512][32];
+	public static IBacteria[][] bacteriaID = new IBacteria[2048][32];
 	public static IVirus[] virusID = new IVirus[8192];
 	
 	public static void main(String[] args)

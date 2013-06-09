@@ -25,7 +25,7 @@ public class Bacteria implements IDNA, IInfectable, IBacteria
 	
 	public Bacteria(int id)
 	{
-		Run.bacteriaID[id] = this;
+		Run.bacteriaID[id][0] = this;
 		ID = id;
 		dna = new DNA(900000, true);
 		if(!getSaveData())
@@ -133,5 +133,26 @@ public class Bacteria implements IDNA, IInfectable, IBacteria
 	{
 		viralDNA = (DNA)newDNA;
 		printData();
+	}
+	
+	public boolean replicate()
+	{
+		for(int i = 0; i < Run.bacteriaID[ID].length; i++)
+		{
+			if(Run.bacteriaID[ID][i] == null)
+			{
+				try
+				{
+					Run.bacteriaID[ID][i] = (Bacteria)this.clone();
+				}
+				catch(CloneNotSupportedException e)
+				{
+					e.printStackTrace();
+					return false;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -1,6 +1,5 @@
 package cell.geneticcode;
 
-
 public class DNA extends GeneticCode
 {
 	private char[] activeSide;

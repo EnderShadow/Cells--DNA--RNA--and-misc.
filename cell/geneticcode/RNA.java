@@ -1,6 +1,5 @@
 package cell.geneticcode;
 
-
 public class RNA extends GeneticCode
 {
 	private char[] activeSide;
